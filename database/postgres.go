@@ -10,15 +10,22 @@ import (
 	"github.com/spf13/viper"
 )
 
-// DB ...
-var DB *pgx.Conn
+// Database ...
+type Database struct {
+	DB *pgx.Conn
+}
+
+// NewDatabase ...
+func NewDatabase() *Database {
+	return &Database{}
+}
 
 // Connect ...
-func Connect() error {
+func (d *Database) Connect() error {
 	var err error
 	dbConfig := viper.GetStringMap("postgres")
 
-	DB, err = pgx.Connect(context.Background(), fmt.Sprintf(
+	d.DB, err = pgx.Connect(context.Background(), fmt.Sprintf(
 		"user=%s password=%s dbname=%s port=%s sslmode=disable",
 		dbConfig["username"].(string),
 		dbConfig["password"].(string),
@@ -30,7 +37,7 @@ func Connect() error {
 		return errors.Wrap(err, "Database connect #1: ")
 	}
 
-	err = DB.Ping(context.Background())
+	err = d.DB.Ping(context.Background())
 	if err != nil {
 		return err
 	}

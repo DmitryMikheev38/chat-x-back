@@ -1,9 +1,13 @@
 package auth
 
-import "github.com/dm/chat-x-back/models"
+import (
+	"context"
+
+	"github.com/dm/chat-x-back/models"
+)
 
 // UserRepository ...
 type UserRepository interface {
-	CreateUser(user *models.User) error
-	GetUser(eMail, password string) (*models.User, error)
+	CreateUser(ctx context.Context, user *models.User) error
+	GetUser(ctx context.Context, eMail, password string) (*models.User, error)
 }

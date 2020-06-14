@@ -29,7 +29,11 @@ type App struct {
 // NewApp ...
 func NewApp() *App {
 
-	userRepo := authpg.NewUserRepository(database.DB)
+	postgres := database.NewDatabase()
+	if err := postgres.Connect(); err != nil {
+		log.Fatal(err)
+	}
+	userRepo := authpg.NewUserRepository(postgres.DB)
 
 	return &App{
 		authUC: authusecase.NewAuthUseCase(
@@ -60,7 +64,7 @@ func (a *App) Start() error {
 	}()
 
 	quit := make(chan os.Signal, 1)
-	signal.Notify(quit, os.Interrupt, os.Interrupt)
+	signal.Notify(quit, os.Interrupt)
 
 	<-quit
 

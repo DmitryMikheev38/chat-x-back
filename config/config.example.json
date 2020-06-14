@@ -1,7 +1,7 @@
 {
     "appUrl": "localhost",
     "port": 8080,
-    "appSecret": "secret",
+    "appSecret": "gdBdle48tndBKFdvckH493ndnkGVd",
     "postgres": {
         "dbName": "chat",
         "userName": "postgres",
